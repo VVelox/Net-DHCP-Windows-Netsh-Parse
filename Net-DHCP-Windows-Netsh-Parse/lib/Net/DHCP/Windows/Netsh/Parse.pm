@@ -6,47 +6,29 @@ use warnings;
 
 =head1 NAME
 
-Net::DHCP::Windows::Netsh::Parse - The great new Net::DHCP::Windows::Netsh::Parse!
+Net::DHCP::Windows::Netsh::Parse - 
 
 =head1 VERSION
 
-Version 0.01
+Version 0.0.1
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.0.1';
 
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
 
-Perhaps a little code snippet.
 
-    use Net::DHCP::Windows::Netsh::Parse;
+=head1 METHODS
 
-    my $foo = Net::DHCP::Windows::Netsh::Parse->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
-
-=head2 function1
+=head2 new
 
 =cut
 
-sub function1 {
-}
-
-=head2 function2
-
-=cut
-
-sub function2 {
+sub new {
+	
 }
 
 =head1 AUTHOR
