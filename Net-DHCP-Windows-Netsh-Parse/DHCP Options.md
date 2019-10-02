@@ -128,3 +128,87 @@
 * 51
 * 58-60
 * 64-76
+* 121
+
+The following are non-standard additions, but appear to be the be able to be ignored.
+
+```
+Dhcp Server \\winboot Add Optiondef 1 "Microsoft Disable Netbios Option " DWORD 0 vendor="Microsoft Options" comment="Option for enabling or disabling Netbios for Microsoft Windows 2000 Clients" 1
+Dhcp Server \\winboot Add Optiondef 2 "Microsoft Release DHCP Lease On Shutdown Option" DWORD 0 vendor="Microsoft Options" comment="Option for enabling or disabling Windows 2000 Clients to release DHCP lease on shutdown" 1
+Dhcp Server \\winboot Add Optiondef 3 "Microsoft Default Router Metric Base" DWORD 0 vendor="Microsoft Options" comment="Default Router Base Metrics for Microsoft Windows 2000 Clients" 1
+Dhcp Server \\winboot Add Optiondef 1 "Microsoft Disable Netbios Option " DWORD 0 vendor="Microsoft Windows 2000 Options" comment="Option for enabling or disabling Netbios for Microsoft Windows 2000 Clients" 1
+Dhcp Server \\winboot Add Optiondef 2 "Microsoft Release DHCP Lease On Shutdown Option" DWORD 0 vendor="Microsoft Windows 2000 Options" comment="Option for enabling or disabling Windows 2000 Clients to release DHCP lease on shutdown" 1
+Dhcp Server \\winboot Add Optiondef 3 "Microsoft Default Router Metric Base" DWORD 0 vendor="Microsoft Windows 2000 Options" comment="Default Router Base Metrics for Microsoft Windows 2000 Clients" 0
+```
+
+The ones we care about are as below.
+
+```
+Dhcp Server \\winboot Add Optiondef 121 "Classless Static Routes" BINARY 0 comment="Destination, mask and router IP addresses in priority order"
+Dhcp Server \\winboot Add Optiondef 1 "Subnet Mask" IPADDRESS 0 comment="Subnet mask in network byte order" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 2 "Time Offset" DWORD 0 comment="UCT offset in seconds" 0
+Dhcp Server \\winboot Add Optiondef 3 "Router" IPADDRESS 1 comment="Array of router addresses ordered by preference" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 4 "Time Server" IPADDRESS 1 comment="Array of time server addresses, by preference" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 5 "Name Servers" IPADDRESS 1 comment="Array of name servers [IEN 116], by preference" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 6 "DNS Servers" IPADDRESS 1 comment="Array of router addresses ordered by preference" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 7 "Log Servers" IPADDRESS 1 comment="Array of MIT_LCS UDP log servers on subnet" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 8 "Cookie Servers" IPADDRESS 1 comment="Array of cookie servers, RFC 865" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 9 "LPR Servers" IPADDRESS 1 comment="Array of RFC 1179 servers, by preference" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 10 "Impress Servers" IPADDRESS 1 comment="Array of Imagen Impress Servers" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 11 "Resource Location Servers" IPADDRESS 1 comment="Array of RFC 887 ResLoc Servers on subnet, by preference" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 12 "Host Name" STRING 0 comment="Host name for client, RFC 1035 character set" ""
+Dhcp Server \\winboot Add Optiondef 13 "Boot File Size" WORD 0 comment="Size of boot image file in 512-octet blocks" 0
+Dhcp Server \\winboot Add Optiondef 14 "Merit Dump File" STRING 0 comment="Path name for crash dump file" ""
+Dhcp Server \\winboot Add Optiondef 15 "DNS Domain Name" STRING 0 comment="DNS Domain name for client resolutions" ""
+Dhcp Server \\winboot Add Optiondef 16 "Swap Server" IPADDRESS 0 comment="Address of client's swap server" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 17 "Root Path" STRING 0 comment="Path name for client's root disk, char set NVT ASCII" ""
+Dhcp Server \\winboot Add Optiondef 18 "Extensions Path" STRING 0 comment="tftp file for option extensions" ""
+Dhcp Server \\winboot Add Optiondef 19 "IP Layer Forwarding" BYTE 0 comment="Disable/enable IP packet forwarding on this client" 0
+Dhcp Server \\winboot Add Optiondef 20 "Nonlocal Source Routing" BYTE 0 comment="Disable/enable nonlocal datagrams" 0
+Dhcp Server \\winboot Add Optiondef 21 "Policy Filter Masks" IPADDRESS 1 comment="Destination/mask IP address pairs to filter source routes" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 22 "Max DG Reassembly Size" WORD 0 comment="Maximum size datagram for reassembly by client; max 576" 0
+Dhcp Server \\winboot Add Optiondef 23 "Default IP Time-to-live" BYTE 0 comment="Default TTL for client's use on outgoing DGs" 0
+Dhcp Server \\winboot Add Optiondef 24 "Path MTU Aging Timeout" DWORD 0 comment="Timeout in seconds for aging Path MTU values; RFC 1191" 0
+Dhcp Server \\winboot Add Optiondef 25 "Path MTU Plateau Table" WORD 1 comment="MTU discovery sizes, sorted by size, all >= 68" 0
+Dhcp Server \\winboot Add Optiondef 26 "MTU Option" WORD 0 comment="MTU discovery size, >= 68" 0
+Dhcp Server \\winboot Add Optiondef 27 "All subnets are local" BYTE 0 comment="The client assumes that all subnets are local" 0
+Dhcp Server \\winboot Add Optiondef 28 "Broadcast Address" IPADDRESS 0 comment="Broadcast address" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 29 "Perform Mask Discovery" BYTE 0 comment="The client should use ICMP for subnet mask discovery." 0
+Dhcp Server \\winboot Add Optiondef 30 "Mask Supplier Option" BYTE 0 comment="The client should respond to subnet mask requests via ICMP." 0
+Dhcp Server \\winboot Add Optiondef 31 "Perform Router Discovery" BYTE 0 comment="The client should solicit routers using RFC 1256." 0
+Dhcp Server \\winboot Add Optiondef 32 "Router Solicitation Address" IPADDRESS 0 comment="Address to use for router solicitation" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 33 "Static Route Option" IPADDRESS 1 comment="Destination/router address pairs, in priority order" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 34 "Trailer Encapsulation" BYTE 0 comment="The client should negotiate use of trailers (RFC 983)." 0
+Dhcp Server \\winboot Add Optiondef 35 "ARP Cache Timeout" DWORD 0 comment="Timeout in seconds for ARP cache entries" 0
+Dhcp Server \\winboot Add Optiondef 36 "Ethernet Encapsulation" BYTE 0 comment="0=>client should use ENet V2; 1=> IEEE 802.3" 0
+Dhcp Server \\winboot Add Optiondef 37 "TCP Default Time-to-live" BYTE 0 comment="TTL that client uses when sending TCP segments" 0
+Dhcp Server \\winboot Add Optiondef 38 "Keepalive Interval" DWORD 0 comment="Keepalive timeout in seconds" 0
+Dhcp Server \\winboot Add Optiondef 39 "Keepalive Garbage" BYTE 0 comment="Send garbage octet" 0
+Dhcp Server \\winboot Add Optiondef 40 "NIS Domain Name" STRING 0 comment="Name of Network Information Service domain" ""
+Dhcp Server \\winboot Add Optiondef 41 "NIS Servers" IPADDRESS 1 comment="Addresses of NIS servers on client's subnet" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 42 "NTP Servers" IPADDRESS 1 comment="Addresses of Network Time Protocol servers" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 43 "Vendor Specific Info" BINARY 0 comment="Embedded vendor-specific options"
+Dhcp Server \\winboot Add Optiondef 44 "WINS/NBNS Servers" IPADDRESS 1 comment="NBNS Address(es) in priority order" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 45 "NetBIOS over TCP/IP NBDD" IPADDRESS 1 comment="NetBIOS over TCP/IP NBDD address(es) in priority order" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 46 "WINS/NBT Node Type" BYTE 0 comment="0x1 = B-node, 0x2 = P-node, 0x4 = M-node, 0x8 = H-node" 0
+Dhcp Server \\winboot Add Optiondef 47 "NetBIOS Scope ID" STRING 0 comment="NetBIOS over TCP/IP Scope ID" ""
+Dhcp Server \\winboot Add Optiondef 48 "X Window System Font" IPADDRESS 1 comment="Array of X Windows font servers" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 49 "X Window System Display" IPADDRESS 1 comment="Array of X Windows Display Mgr servers" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 51 "Lease" DWORD 0 comment="Client IP address lease time in seconds" 0
+Dhcp Server \\winboot Add Optiondef 58 "Renewal (T1) Time Value" DWORD 0 comment="Time between addr assignment to RENEWING state" 0
+Dhcp Server \\winboot Add Optiondef 59 "Rebinding (T2) Time Value" DWORD 0 comment="Time from addr assignment to REBINDING state" 0
+Dhcp Server \\winboot Add Optiondef 64 "NIS+ Domain Name" STRING 0 comment="The name of the client's NIS+ domain." ""
+Dhcp Server \\winboot Add Optiondef 65 "NIS+ Servers" IPADDRESS 1 comment="A list of IP addresses indicating NIS+ servers" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 66 "Boot Server Host Name" STRING 0 comment="TFTP boot server host name" ""
+Dhcp Server \\winboot Add Optiondef 67 "Bootfile Name" STRING 0 comment="Bootfile Name" ""
+Dhcp Server \\winboot Add Optiondef 68 "Mobile IP Home Agents" IPADDRESS 1 comment="Mobile IP home agents in priority order" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 69 "Simple Mail Transport Protocol (SMTP) Servers" IPADDRESS 1 comment="List of SMTP servers available to the client" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 70 "Post Office Protocol (POP3) Servers" IPADDRESS 1 comment="List of POP3 servers available to the client" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 71 "Network News Transport Protocol (NNTP) Servers" IPADDRESS 1 comment="List of NNTP servers available to the client" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 72 "World Wide Web (WWW) Servers" IPADDRESS 1 comment="List of WWW servers available to the client" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 73 "Finger Servers" IPADDRESS 1 comment="List of Finger servers available to the client" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 74 "Internet Relay Chat (IRC) Servers" IPADDRESS 1 comment="List of IRC servers available to the client" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 75 "StreetTalk Servers" IPADDRESS 1 comment="List of StreetTalk servers available to the client" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 76 "StreetTalk Directory Assistance (STDA) Servers" IPADDRESS 1 comment="List of STDA servers available to the client" 0.0.0.0
+Dhcp Server \\winboot Add Optiondef 60 "PXEClient" STRING 0 comment="PXE Support" "PXEClient"
+```
