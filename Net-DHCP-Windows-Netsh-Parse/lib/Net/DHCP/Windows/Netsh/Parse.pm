@@ -31,6 +31,8 @@ sub new {
 	
 }
 
+=head1 
+
 =head1 AUTHOR
 
 Zane C. Bowers-Hadley, C<< <vvelox at vvelox.net> >>
