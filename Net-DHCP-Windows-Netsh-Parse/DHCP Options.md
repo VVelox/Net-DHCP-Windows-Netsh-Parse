@@ -288,7 +288,7 @@ Dhcp Server \\winboot set optionvalue 60 STRING "PXEClient"
 | 57   | option dhcp-max-message-size uint16;                                    |                                              |
 | 58   | option dhcp-renewal-time uint32;                                        |                                              |
 | 59   | option dhcp-rebinding-time uint32;                                      |                                              |
-| 60   |                                                                         | Seems to be split up among multiple options. |
+| 60   | Vendor class identifier                                                 |                                              |
 | 64   | option nisplus-domain text;                                             |                                              |
 | 65   | option nisplus-servers ip-address [, ip-address... ];                   |                                              |
 | 66   | option tftp-server-name text;                                           |                                              |
@@ -303,5 +303,17 @@ Dhcp Server \\winboot set optionvalue 60 STRING "PXEClient"
 | 75   | option streettalk-server ip-address [, ip-address... ];                 |                                              |
 | 76   | option streettalk-directory-assistance-server ip-address                |                                              |
 | 121  |                                                                         | Not implemented.                             |
+| 213  | option v4-access-domain domain-name;                                    |                                              |
 
+# Must Implement Options
 
+These are common ones that must be implemented.
+
+* 15 :: domain name
+* 213 :: LIS domain name
+* 3 :: router
+* 51 :: lease time
+* 6 :: DNS
+* 66 :: TFTP server name
+* 60 :: vendor class identifier
+* 67 :: bootfile name
