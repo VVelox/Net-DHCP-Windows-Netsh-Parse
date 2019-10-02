@@ -95,7 +95,7 @@
 | Code | Name                      | Length              | Note |
 |------|---------------------------|---------------------|------|
 | 50   | Requested IP address      | 4 octets            |      |
-| 51   | IP address                | lease time 4 octets |      |
+| 51   | lease time                | lease time 4 octets |      |
 | 52   | Option overload           | 1 octet             |      |
 | 53   | DHCP message type         | 1 octet             |      |
 | 54   | Server identifier         | 4 octets            |      |
@@ -212,3 +212,96 @@ Dhcp Server \\winboot Add Optiondef 75 "StreetTalk Servers" IPADDRESS 1 comment=
 Dhcp Server \\winboot Add Optiondef 76 "StreetTalk Directory Assistance (STDA) Servers" IPADDRESS 1 comment="List of STDA servers available to the client" 0.0.0.0
 Dhcp Server \\winboot Add Optiondef 60 "PXEClient" STRING 0 comment="PXE Support" "PXEClient"
 ```
+
+# Defaults In Windows
+
+Below is a example how defaults will appear.
+
+```
+Dhcp Server \\winboot set optionvalue 15 STRING "foo.bar"
+Dhcp Server \\winboot set optionvalue 6 IPADDRESS "1.2.3.4" "5.6.7.8"
+Dhcp Server \\winboot set optionvalue 66 STRING "1.2.3.4"
+Dhcp Server \\winboot set optionvalue 67 STRING "linux"
+Dhcp Server \\winboot set optionvalue 60 STRING "PXEClient"
+```
+
+# Options Code To ISC-DHCPD Mapping
+
+| Code | ISC-DHCPD                                                               | Note                                         |
+|------|-------------------------------------------------------------------------|----------------------------------------------|
+| 0    | option subnet-mask ip-address;                                          |                                              |
+| 1    | option time-offset int32;                                               |                                              |
+| 3    | option routers ip-address [, ip-address... ];                           |                                              |
+| 4    | option time-servers ip-address [, ip-address... ];                      |                                              |
+| 5    | option ien116-name-servers ip-address [, ip-address... ];               |                                              |
+| 6    | option domain-name-servers ip-address [, ip-address... ];               |                                              |
+| 7    | option log-servers ip-address [, ip-address... ];                       |                                              |
+| 8    | option cookie-servers ip-address [, ip-address... ];                    |                                              |
+| 9    | option lpr-servers ip-address [, ip-address... ];                       |                                              |
+| 10   | option impress-servers ip-address [, ip-address... ];                   |                                              |
+| 11   | option resource-location-servers ip-address                             |                                              |
+| 12   | option host-name string;                                                |                                              |
+| 13   | option boot-size uint16;                                                |                                              |
+| 14   | option merit-dump text;                                                 |                                              |
+| 15   | option domain-name text;                                                |                                              |
+| 16   | option swap-server ip-address;                                          |                                              |
+| 17   | option root-path text;                                                  |                                              |
+| 18   | option extensions-path text;                                            |                                              |
+| 19   | option ip-forwarding flag;                                              |                                              |
+| 20   | option non-local-source-routing flag;                                   |                                              |
+| 21   | option policy-filter ip-address ip-address[, ip-address ip-address...]; |                                              |
+| 22   | option max-dgram-reassembly uint16;                                     |                                              |
+| 23   | option default-ip-ttl uint8;                                            |                                              |
+| 24   | option path-mtu-aging-timeout uint32;                                   |                                              |
+| 25   | option path-mtu-plateau-table uint16 [, uint16... ];                    |                                              |
+| 26   | option interface-mtu uint16;                                            |                                              |
+| 27   | option all-subnets-local flag;                                          |                                              |
+| 28   | option broadcast-address ip-address;                                    |                                              |
+| 29   | option perform-mask-discovery flag;                                     |                                              |
+| 30   | option mask-supplier flag;                                              |                                              |
+| 31   | option router-discovery flag;                                           |                                              |
+| 32   | option router-solicitation-address ip-address;                          |                                              |
+| 33   | option static-routes ip-address ip-address[, ip-address ip-address...]; |                                              |
+| 34   | option trailer-encapsulation flag;                                      |                                              |
+| 35   | option arp-cache-timeout uint32;                                        |                                              |
+| 36   | option ieee802-3-encapsulation flag;                                    |                                              |
+| 37   | option default-tcp-ttl uint8;                                           |                                              |
+| 38   | option tcp-keepalive-interval uint32;                                   |                                              |
+| 39   | option tcp-keepalive-garbage flag;                                      |                                              |
+| 40   | option nis-domain text;                                                 |                                              |
+| 41   | option nis-servers ip-address [, ip-address... ];                       |                                              |
+| 42   | option ntp-servers ip-address [, ip-address... ];                       |                                              |
+| 43   |                                                                         | Seems to be split up among multiple options. |
+| 44   | option netbios-name-servers ip-address [, ip-address...];               |                                              |
+| 45   | option netbios-dd-server ip-address [, ip-address... ];                 |                                              |
+| 46   | option netbios-node-type uint8;                                         |                                              |
+| 47   | option netbios-scope string;                                            |                                              |
+| 48   | option font-servers ip-address [, ip-address... ];                      |                                              |
+| 49   | option x-display-manager ip-address [, ip-address... ];                 |                                              |
+| 50   | option dhcp-requested-address ip-address;                               | Not user setable                             |
+| 51   | option dhcp-lease-time uint32;                                          |                                              |
+| 52   | option dhcp-option-overload uint8;                                      |                                              |
+| 53   | option dhcp-message-type uint8;                                         |                                              |
+| 54   | option dhcp-server-identifier ip-address;                               |                                              |
+| 55   | option dhcp-parameter-request-list uint8 [, uint8... ];                 |                                              |
+| 56   | option dhcp-message text;                                               | Not user setable                             |
+| 57   | option dhcp-max-message-size uint16;                                    |                                              |
+| 58   | option dhcp-renewal-time uint32;                                        |                                              |
+| 59   | option dhcp-rebinding-time uint32;                                      |                                              |
+| 60   |                                                                         | Seems to be split up among multiple options. |
+| 64   | option nisplus-domain text;                                             |                                              |
+| 65   | option nisplus-servers ip-address [, ip-address... ];                   |                                              |
+| 66   | option tftp-server-name text;                                           |                                              |
+| 67   | option bootfile-name text;                                              |                                              |
+| 68   | option mobile-ip-home-agent ip-address [, ip-address... ];              |                                              |
+| 69   | option smtp-server ip-address [, ip-address... ];                       |                                              |
+| 70   | option pop-server ip-address [, ip-address... ];                        |                                              |
+| 71   | option nntp-server ip-address [, ip-address... ];                       |                                              |
+| 72   | option www-server ip-address [, ip-address... ];                        |                                              |
+| 73   | option finger-server ip-address [, ip-address... ];                     |                                              |
+| 74   | option irc-server ip-address [, ip-address... ];                        |                                              |
+| 75   | option streettalk-server ip-address [, ip-address... ];                 |                                              |
+| 76   | option streettalk-directory-assistance-server ip-address                |                                              |
+| 121  |                                                                         | Not implemented.                             |
+
+
