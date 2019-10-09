@@ -75,7 +75,7 @@ sub parse{
 	foreach my $line( @lines ){
 		# these will always be the same, just need to define something there
 		# garbage1=Dhcp garbage2=Server
-		my ( $garbage1, $garbage2, $server, $command, $the_rest)=split( /\ +/, $line, 4);
+		my ( $garbage1, $garbage2, $server, $command, $the_rest)=split( /\ +/, $line, 5);
 
 		if ( $command eq 'set' ){
 			# Dhcp Server \\winboot set optionvalue 15 STRING "foo.bar"
@@ -103,7 +103,7 @@ sub parse{
 		}elsif( $command eq 'add' ){
 			# Dhcp Server \\winboot add scope 10.40.10.0 255.255.254.0 "it.ord" ""
 			# Dhcp Server \\winboot add scope 10.31.129.248 255.255.255.248 "ipkvm.sjc" "The NEW ipkvm.sjc after 10.93.180.216/29 was swiped"
-			my @the_rest=split(/\ +/, $the_rest, 3);
+			my @the_rest=split(/\ +/, $the_rest, 4);
 
 			if (
 				( $the_rest[0] eq 'scope' ) &&
