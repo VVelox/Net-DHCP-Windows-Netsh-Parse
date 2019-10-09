@@ -25,6 +25,10 @@ our $VERSION = '0.0.1';
 
 =head2 new
 
+This initiates the object.
+
+No arguments are taken.
+
 =cut
 
 sub new {

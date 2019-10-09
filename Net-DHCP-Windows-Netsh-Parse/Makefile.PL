@@ -17,8 +17,7 @@ my %WriteMakefileArgs = (
 										   'Test::More' => '0',
 										   },
 						 PREREQ_PM => {
-									   #'ABC'              => '1.6',
-									   #'Foo::Bar::Module' => '5.0401',
+									   'Net::CIDR::Overlap'=>'0.0.1',
 									   },
 						 dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
 						 clean => { FILES => 'Net-DHCP-Windows-Netsh-Parse-*' },
