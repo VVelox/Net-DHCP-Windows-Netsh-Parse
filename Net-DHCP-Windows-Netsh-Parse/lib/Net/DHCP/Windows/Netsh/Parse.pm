@@ -110,7 +110,6 @@ sub parse{
 				defined( $the_rest[1] ) &&
 				defined( $the_rest[2] )
 				){
-
 				$self->add_scope($server, $the_rest[1], $the_rest[2], $the_rest[3]);
 			}
 		}
