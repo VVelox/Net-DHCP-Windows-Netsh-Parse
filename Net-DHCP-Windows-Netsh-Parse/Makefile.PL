@@ -17,7 +17,7 @@ my %WriteMakefileArgs = (
 										   'Test::More' => '0',
 										   },
 						 PREREQ_PM => {
-									   'Net::CIDR::Overlap'=>'0.0.1',
+									   'JSON'=>'4.02',
 									   },
 						 dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
 						 clean => { FILES => 'Net-DHCP-Windows-Netsh-Parse-*' },

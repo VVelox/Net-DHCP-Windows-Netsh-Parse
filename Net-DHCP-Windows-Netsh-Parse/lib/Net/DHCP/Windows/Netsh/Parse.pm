@@ -3,6 +3,7 @@ package Net::DHCP::Windows::Netsh::Parse;
 use 5.006;
 use strict;
 use warnings;
+use JSON;
 
 =head1 NAME
 
@@ -22,6 +23,20 @@ our $VERSION = '0.0.1';
     use Net::DHCP::Windows::Netsh::Parse;
 
     my $parser=Net::DHCP::Windows::Netsh::Parse->new;
+    
+    eval{
+        $parser->parse( $dump );
+    };
+    if ( $@ ){
+        print "It failed with... ".$@."\n";
+    }
+    
+    # no white space
+    my $json=$parser->json(0);
+    
+    # now with useful white space
+    $json=$parser->json(0);
+
 
 =head1 METHODS
 
@@ -38,7 +53,6 @@ No arguments are taken.
 sub new {
 	my $self={
 			  servers=>{},
-			  sets=>{},
 			  };
 	bless $self;
 
@@ -46,6 +60,19 @@ sub new {
 }
 
 =head2 parse
+
+This parses a dump from netsh.
+
+Only one option is taken and that is a string.
+
+Nothing is returned. It will die if it fails to parse.
+
+    eval{
+        $parser->parse( $dump );
+    };
+    if ( $@ ){
+        print "It failed with... ".$@."\n";
+    }
 
 =cut
 
@@ -127,7 +154,7 @@ sub parse{
 				){
 				my @values;
 
-				my $the_rest_location=4;
+				my $the_rest_location=5;
 				while(defined( $the_rest[$the_rest_location] )){
 					push(@values, $the_rest[$the_rest_location]);
 					$the_rest_location++;
@@ -139,9 +166,71 @@ sub parse{
 	}
 }
 
+=head2 hash_ref
+
+This returns the current hash reference for the parsed data.
+
+    my $hash_ref=$parser->hash_ref;
+
+=cut
+
+sub hash_ref{
+	return $_[0]->{servers};
+}
+
+=head2 json
+
+This returns the parsed data as JSON.
+
+One option is taken and that is either a 0/1 for
+if it should be made nice and pretty.
+
+    # no white space
+    my $json=$parser->json(0);
+    
+    # now with useful white space
+    $json=$parser->json(0);
+
+=head1 DATA STRUCTURE
+
+The structure of it is as below for both the return
+hash ref or JSON.
+
+   $hostname=>{$scope}=>{
+                         $options=>[],
+                         mask=>subnet mask,
+                         desc=>description,
+                        }
+
+Hostname will always have \\ removed, so \\winboot
+becomes just winboot.
+
+$scope is going to be the base address of the subnet.
+
+=cut
+
+sub json{
+	my $self=$_[0];
+	my $pretty=$_[1];
+
+	my $json=JSON->new;
+	$json->pretty( $pretty );
+
+	return $json->encode( $self->{servers} );
+}
+
 =head1 INTERNAL FUNCTIONS
 
-=head2 new_options
+=head2 add_options
+
+This adds a option for a scope.
+
+    $hostname = Hostname of the DHCP server.
+    $scope = scope name
+    $option = DHCP option integer
+    $values = array ref of values
+
+    $parser->( $hostname, $scope, $option, \@values );
 
 =cut
 
@@ -163,6 +252,17 @@ sub add_option{
 	}elsif( !defined( $values->[0] ) ){
 		die('No option specified');
 	}
+
+	# skip over lines like this...
+	# Dhcp Server \\winboot Scope 10.40.10.0 set optionvalue 51 DWORD user="Default BOOTP Class" "1800"
+	if (
+		( $option eq '51' ) &&
+		( $values->[0] =~ /^[Uu]/ )
+		){
+		return 1;
+	}
+
+	$hostname=~s/^\\+//;
 
 	if ( ! defined( $self->{servers}{$hostname} ) ){
 		$self->{servers}{$hostname}={};
@@ -187,7 +287,16 @@ sub add_option{
 	return 1;
 }
 
-=head2 new_options
+=head2 add_scope
+
+This adds a new scope.
+
+    $hostname = Hostname of the DHCP server.
+    $scope = scope name
+    $mask = subnet mask for the scope
+    $desc = description
+
+    $parser->( $hostname, $scope, $mask, $desc );
 
 =cut
 
@@ -196,7 +305,7 @@ sub add_scope{
 	my $hostname=$_[1];
 	my $scope=$_[2];
 	my $mask=$_[3];
-	my $desc=$_[3];
+	my $desc=$_[4];
 
 	# make sure we have everything we need
 	# split up so we produce a more useful error
@@ -209,6 +318,8 @@ sub add_scope{
 	}elsif( !defined( $desc ) ){
 		die('No subnet description specified');
 	}
+
+	$hostname=~s/^\\+//;
 
 	if ( ! defined( $self->{servers}{$hostname} ) ){
 		$self->{servers}{$hostname}={};
