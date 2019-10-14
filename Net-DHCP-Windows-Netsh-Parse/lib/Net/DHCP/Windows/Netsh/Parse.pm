@@ -7,7 +7,7 @@ use JSON;
 
 =head1 NAME
 
-Net::DHCP::Windows::Netsh::Parse - 
+Net::DHCP::Windows::Netsh::Parse - Parses the output from 'netsh dhcp server dump'
 
 =head1 VERSION
 
@@ -36,7 +36,6 @@ our $VERSION = '0.0.1';
     
     # now with useful white space
     $json=$parser->json(0);
-
 
 =head1 METHODS
 

@@ -68,5 +68,4 @@ eval{
 };
 ok( $worked eq '1', 'hash_ref') or diag("\$parser->hash_ref errored... $@=".$@);
 
-
 done_testing(8);
