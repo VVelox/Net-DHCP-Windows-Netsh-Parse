@@ -19,7 +19,9 @@ our $VERSION = '0.0.1';
 
 =head1 SYNOPSIS
 
+    use Net::DHCP::Windows::Netsh::Parse;
 
+    my $parser=Net::DHCP::Windows::Netsh::Parse->new;
 
 =head1 METHODS
 
@@ -28,6 +30,8 @@ our $VERSION = '0.0.1';
 This initiates the object.
 
 No arguments are taken.
+
+    my $parser=Net::DHCP::Windows::Netsh::Parse->new;
 
 =cut
 
@@ -41,7 +45,7 @@ sub new {
 	return $self;
 }
 
-=head2 read
+=head2 parse
 
 =cut
 
@@ -66,11 +70,11 @@ sub parse{
 	#
 	# set is case sensitive... we want stuff like...
 	# Dhcp Server \\winboot set optionvalue 15 STRING "foo.bar"
-	@lines=grep( !/^Dhcp\ Server\ [\\A-Za-z\.0-9]+\ Add\ Class/ , split( /\n/, @lines ));
-	@lines=grep( !/^Dhcp\ Server\ [\\A-Za-z\.0-9]+\ v6\ Add\ Class/ , split( /\n/, @lines ));
-	@lines=grep( !/^Dhcp\ Server\ [\\A-Za-z\.0-9]+\ Set/ , split( /\n/, @lines ));
-	@lines=grep( !/^Dhcp\ Server\ [\\A-Za-z\.0-9]+\ Add\ Optiondef/ , split( /\n/, @lines ));
-	@lines=grep( !/^Dhcp\ Server\ [\\A-Za-z\.0-9]+\ v6\ Add\ Optiondef/ , split( /\n/, @lines ));
+	@lines=grep( !/^Dhcp\ Server\ [\\A-Za-z\.0-9]+\ Add\ Class/ , @lines );
+	@lines=grep( !/^Dhcp\ Server\ [\\A-Za-z\.0-9]+\ v6\ Add\ Class/ , @lines );
+	@lines=grep( !/^Dhcp\ Server\ [\\A-Za-z\.0-9]+\ Set/ , @lines );
+	@lines=grep( !/^Dhcp\ Server\ [\\A-Za-z\.0-9]+\ Add\ Optiondef/ , @lines );
+	@lines=grep( !/^Dhcp\ Server\ [\\A-Za-z\.0-9]+\ v6\ Add\ Optiondef/ , @lines );
 
 	foreach my $line( @lines ){
 		# these will always be the same, just need to define something there
@@ -111,6 +115,25 @@ sub parse{
 				defined( $the_rest[2] )
 				){
 				$self->add_scope($server, $the_rest[1], $the_rest[2], $the_rest[3]);
+			}
+		}elsif( $command =~ /^[Ss]cope$/ ){
+			# Dhcp Server \\winboot Scope 10.31.110.0 set optionvalue 51 DWORD "1800"
+			# Dhcp Server \\winboot Scope 10.31.110.0 set optionvalue 3 IPADDRESS "10.31.110.1"
+			my @the_rest=split(/\ +/, $the_rest);
+
+			if (
+				( $the_rest[1] eq 'set' ) &&
+				( $the_rest[2] eq 'optionvalue' )
+				){
+				my @values;
+
+				my $the_rest_location=4;
+				while(defined( $the_rest[$the_rest_location] )){
+					push(@values, $the_rest[$the_rest_location]);
+					$the_rest_location++;
+				}
+
+				$self->add_option($server, $the_rest[0], $the_rest[3], \@values);
 			}
 		}
 	}
